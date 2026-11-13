@@ -2,7 +2,7 @@ name: Publish OTA update
 on:
   push:
     branches: [main, preview]
-    paths: [App.tsx, index.js]
+    paths: [App.tsx, index.js, .github/workflows/ota.yml]
   workflow_dispatch:
     inputs:
       channel:
@@ -37,5 +37,7 @@ jobs:
       - name: Publish channel
         run: |
           test -n "$EXPO_PROJECT_ID" || { echo 'EXPO_PROJECT_ID is missing'; exit 1; }
-          eas channel:create "$CHANNEL" --branch "$CHANNEL" --non-interactive || eas channel:edit "$CHANNEL" --branch "$CHANNEL" --non-interactive
+          eas channel:view "$CHANNEL" --json --non-interactive || eas channel:create "$CHANNEL" --non-interactive
           eas update --branch "$CHANNEL" --environment "$CHANNEL" --platform android --message "Shesha ${GITHUB_SHA}" --non-interactive
+          eas channel:edit "$CHANNEL" --branch "$CHANNEL" --non-interactive
+
