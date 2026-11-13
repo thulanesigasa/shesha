@@ -13,7 +13,7 @@ An Expo Android app and private Cloudflare Worker API for turning GitHub project
 
 ## Initial infrastructure setup
 
-Cloudflare and Expo project creation are one-time infrastructure steps, not provider settings. No backend is deployed by committing this repository.
+Cloudflare and Expo project creation are one-time infrastructure steps, not provider settings. The initial backend is deployed at https://shesha-api.pharezsigasa.workers.dev. Database and Worker secrets have been provisioned through the connected Cloudflare account. Future GitHub backend deployment needs CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets.
 
 1. `npm ci`. Create a Cloudflare D1 database (`npx wrangler d1 create shesha`) and put its UUID in wrangler.jsonc.
 2. Set `ADMIN_TOKEN` and `VAULT_KEY` with `npx wrangler secret put NAME`. Use distinct random values of at least 32 bytes; preserve VAULT_KEY or stored credentials will be unrecoverable.
@@ -33,7 +33,7 @@ Cloudflare and Expo project creation are one-time infrastructure steps, not prov
 Runtime is the explicit string **1.0.1**, independent of app version. Production is the default profile and channel; preview is also defined, both with installable APK outputs.
 
 1. The repository's EXPO_TOKEN secret is already supplied by the owner. Do not put it in Settings or source.
-2. Create/link the Shesha EAS project once from a trusted terminal: `npx eas-cli init`. Set repository Actions variable `EXPO_PROJECT_ID` to that project's UUID. The app configuration reads this variable during build and OTA. Do not use the Bible Diaries project ID.
+2. Create/link the Shesha EAS project once from a trusted terminal: `npx eas-cli init`. The supplied project UUID `0c476bbb-2342-4336-bb38-0fa2d6d9f0c8` is linked in app.config.js and is the workflow default. An optional Actions variable `EXPO_PROJECT_ID` overrides it. The app configuration reads this variable during build and OTA. Do not use the Bible Diaries project ID.
 3. Set up Android signing credentials for this project once using `npx eas-cli credentials --platform android` (or complete the first interactive build). Non-interactive CI cannot create credentials that need prompts.
 4. Run **Production Android APK** from Actions. The default production build uses EAS Cloud and attaches shesha.apk plus checksum to GitHub Releases. EAS billing/quotas apply. Changing release.json on main also triggers a build; ordinary UI changes do not.
 5. **Publish OTA update** runs for App.tsx/index.js changes on main (production) or preview (preview); it can also be dispatched manually. It creates/maps the EAS branch/channel. Install a build on the corresponding channel before testing OTA.
@@ -47,3 +47,7 @@ The guard hashes package, lock, app config and EAS config to block unreviewed na
 `npm run server` uses local D1; apply migrations locally first. Tests cover encryption integrity, caption constraints, project rotation and unauthenticated API access. Live LinkedIn, Canva, OpenAI, deployed Worker and installed APK verification require infrastructure and provider credentials.
 
 Twice-daily scheduling, fully automatic trigger-and-post, in-app OAuth and Canva carousels remain future work. V1 deliberately keeps publishing as an explicit action from the generated draft.
+
+## Pairing the installed app
+
+The backend URL is prefilled. Enter the one-time pairing code supplied at deployment in Settings, tap Pair this device, then Save and connect. The code expires after 48 hours and can be used once. The app exchanges it for a dashboard token stored in Android SecureStore; the server stores only the code hash and deletes it atomically on use. Provider credentials remain server-side. Pairing does not configure LinkedIn/OpenAI credentials.

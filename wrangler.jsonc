@@ -3,5 +3,5 @@
   "main":"server/worker.mjs",
   "compatibility_date":"2026-11-13",
   "observability":{"enabled":true,"traces":{"enabled":true}},
-  "d1_databases":[{"binding":"DB","database_name":"shesha","database_id":"REPLACE_WITH_D1_ID","migrations_dir":"server/migrations"}]
+  "d1_databases":[{"binding":"DB","database_name":"shesha","database_id":"cce27070-2da0-4ca5-ab21-82c89cbf9af9","migrations_dir":"server/migrations"}]
 }

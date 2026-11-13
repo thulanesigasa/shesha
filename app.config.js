@@ -1,2 +1,2 @@
-const projectId = process.env.EXPO_PROJECT_ID;
+const projectId = process.env.EXPO_PROJECT_ID || '0c476bbb-2342-4336-bb38-0fa2d6d9f0c8';
 module.exports = {expo:{name:'Shesha',slug:'shesha',version:'1.0.1',scheme:'shesha',orientation:'portrait',userInterfaceStyle:'dark',runtimeVersion:'1.0.1',android:{package:'com.thulanesigasa.shesha',versionCode:1},ios:{bundleIdentifier:'com.thulanesigasa.shesha',buildNumber:'1'},plugins:['expo-secure-store','expo-updates'],updates:{enabled:!!projectId,checkAutomatically:'ON_LOAD',fallbackToCacheTimeout:0,...(projectId?{url:`https://u.expo.dev/${projectId}`}:{})},extra:{...(projectId?{eas:{projectId}}:{})}}};

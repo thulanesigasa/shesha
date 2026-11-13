@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 120
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-      EXPO_PROJECT_ID: ${{ vars.EXPO_PROJECT_ID }}
+      EXPO_PROJECT_ID: ${{ vars.EXPO_PROJECT_ID || '0c476bbb-2342-4336-bb38-0fa2d6d9f0c8' }}
       PROFILE: ${{ inputs.profile || 'production' }}
     steps:
       - uses: actions/checkout@v4

@@ -6,6 +6,13 @@ async function saveSettings(env,s){await env.DB.prepare('INSERT INTO settings(id
 async function authorize(req,env){if(!env.ADMIN_TOKEN||!env.VAULT_KEY) throw Error('Server setup incomplete. Set ADMIN_TOKEN and VAULT_KEY.');const hash=async s=>new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)));const a=await hash(req.headers.get('Authorization')||'');const b=await hash(`Bearer ${env.ADMIN_TOKEN}`);let d=0;for(let i=0;i<a.length;i++)d|=a[i]^b[i];return d===0;}
 export default {async fetch(req,env){try{
  const url=new URL(req.url);const path=url.pathname;
+ if(path==='/pair'&&req.method==='POST'){
+ const b=await req.json();if(typeof b.code!=='string'||b.code.length!==32)return Response.json({error:'Invalid pairing code.'},{status:401});
+ const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(b.code)))).map(x=>x.toString(16).padStart(2,'0')).join('');
+ const row=await env.DB.prepare('DELETE FROM pairing WHERE id=1 AND code_hash=? AND expires_at>unixepoch() RETURNING id').bind(hash).first();
+ if(!row)return Response.json({error:'Pairing code is invalid, expired or already used.'},{status:401});
+ return Response.json({token:env.ADMIN_TOKEN},{headers:{'Cache-Control':'no-store'}});
+ }
  if(path==='/health')return Response.json({ok:true,version:'1.0.1'});
  if(!await authorize(req,env))return Response.json({error:'Invalid dashboard access token.'},{status:401});
  const s=await settings(env);
