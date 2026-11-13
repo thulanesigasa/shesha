@@ -4,9 +4,9 @@ An Expo Android app and private Cloudflare Worker API for turning GitHub project
 
 ## What works in this version
 
-- Sync a public GitHub user's repositories; optionally authenticate reads. Enable projects and assign screenshot URLs, phone/laptop layouts and Canva reference links.
+- Sync a public GitHub user's repositories; optionally authenticate reads. Enable projects and automatically render their own brand colours in phone/laptop mockups; screenshot URLs are optional overrides.
 - Rotate projects, read README evidence, request an editable caption from OpenAI. No emojis or hashtags; validate again before publishing.
-- Render a real screenshot inside a device frame, save/reopen drafts, publish a single PNG to a personal LinkedIn profile using official APIs.
+- Render a branded illustrative app screen or a source image inside a device frame, save/reopen drafts and publish an approved PDF carousel using official APIs.
 - Track drafts, in-progress, published and uncertain deliveries. Do not automatically retry an uncertain submission; verify LinkedIn first.
 - Configure providers through Settings. Provider secrets encrypted with AES-GCM in D1; only the backend URL and dashboard token are stored in device SecureStore. Provider secrets are never compiled into the APK.
 - Check/download compatible OTA updates from Settings.
@@ -58,7 +58,7 @@ Generation produces a draft, never a published post. Review all five 4:5 preview
 
 Reject opens a required feedback field. Choose all projects or only this project. Feedback is saved in D1 and retrieved for later generations and regeneration of the rejected project. This is preference memory, not model training. Settings lists saved preferences and allows deletion. Every revision returns to review; feedback cannot authorize publishing.
 
-Default visual reference: five-page Canva design DAHaUCfbi2c, especially slide two. The implemented layout uses white portrait pages, real device mockup/screenshot left, thin black divider, short copy right, blue emphasis and a pink accent. It is an app-rendered adaptation of the reference, not a Canva template autofill. Choose Use app logo instead explicitly to make a single-page logo variation. Add screenshot/logo URLs in Projects. No fabricated screens are substituted when assets are missing.
+Default visual reference: five-page Canva design DAHaUCfbi2c, especially slide two. The device-left/divider/copy-right composition is shared, while each project uses its own verified palette and platform. Bible Diaries uses white, blue and pink; GENI uses purple and teal. Branded illustrative mockups are created automatically without an upload. Existing project images are used when available, with an illustrative fallback on failure. Projects → Refresh mockup from project detects platform, theme tokens and available image assets. These are app-rendered illustrations, not claims of actual screenshots or Canva template autofill. Approval still captures the exact pages you reviewed.
 
 Server-only PDF dependency lives in server/package.json and server/package-lock.json. CI installs both root and server dependencies; no native dependencies or runtime changes are needed. Apply server/migrations/0003.sql once to an existing database before deploying this change. LinkedIn document access and real device capture still require a live account/device test. If LinkedIn is still processing an uploaded document, the approved post and document URN are retained for an explicit retry.
 
@@ -80,4 +80,6 @@ Settings opens as plain category rows on the page, with transparent PNG icons an
 
 The header is text-only Shesha. The launcher icon and native splash from 1.0.2 are unchanged; these layout changes use existing native capabilities and are delivered through OTA on runtime 1.0.1.
 
-On connection, the dashboard fills up to three pending repository-based drafts and shows three selectable first-slide/caption previews. These templates use repository metadata and do not claim AI generation. Generating three AI alternatives requires an OpenAI key and uses the normal reviewed-draft flow. Neither preparation nor generation publishes a post. Prepared drafts are persisted on the backend and opened in the existing full review screen; missing screenshots are explicitly indicated.
+On connection, the dashboard fills up to three pending repository-based drafts and shows three selectable first-slide/caption previews. These templates use repository metadata and do not claim AI generation. Generating three AI alternatives requires an OpenAI key and uses the normal reviewed-draft flow. Neither preparation nor generation publishes a post. Prepared drafts are persisted on the backend and opened in the existing full review screen; branded illustrative mockups are shown when no screenshot is available.
+
+Apply server/migrations/0004.sql once before deploying project visual metadata support. No native dependencies changed; runtime remains 1.0.1.

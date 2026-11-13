@@ -4,7 +4,7 @@ import {Text,RasterIcon,IconName} from './Ui';import {Button,Field} from './Cont
 const pages:{id:string;title:string;hint:string;icon:IconName;guide?:string}[]=[
 {id:'backend',title:'Backend connection',hint:'Pairing and connection status',icon:'plug'},
 {id:'services',title:'Connected services',hint:'GitHub, OpenAI, LinkedIn and Canva',icon:'code'},
-{id:'design',title:'Canva & design',hint:'Carousel reference, screenshots and logos',icon:'palette',guide:'Visual style & brand assets'},
+{id:'design',title:'Canva & design',hint:'Project colours, automatic mockups and logos',icon:'palette',guide:'Visual style & brand assets'},
 {id:'memory',title:'Saved preferences',hint:'Feedback remembered for future drafts',icon:'brain',guide:'How saved preferences work'},
 {id:'appearance',title:'Appearance',hint:'Reading size and app colours',icon:'type'},
 {id:'review',title:'Content review & publishing',hint:'Previews, approval and rejection',icon:'review',guide:'Content review & publishing'},
