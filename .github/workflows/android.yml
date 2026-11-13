@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: {node-version: 22, cache: npm}
-      - run: npm ci
+      - run: npm ci && npm ci --prefix server
       - run: npm run typecheck && npm test
       - uses: expo/expo-github-action@v8
         with:
@@ -43,6 +43,14 @@ jobs:
         run: eas build --platform android --profile "$PROFILE" --non-interactive --wait --json > build-output.json
       - name: Download completed APK
         run: node scripts/download-build.mjs
+      - name: Preserve downloadable APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: shesha-production-apk
+          path: |
+            shesha.apk
+            shesha.apk.sha256
+          retention-days: 90
       - name: Publish APK release
         env:
           GH_TOKEN: ${{ github.token }}

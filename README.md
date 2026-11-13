@@ -51,3 +51,15 @@ Twice-daily scheduling, fully automatic trigger-and-post, in-app OAuth and Canva
 ## Pairing the installed app
 
 The backend URL is prefilled. Enter the one-time pairing code supplied at deployment in Settings, tap Pair this device, then Save and connect. The code expires after 48 hours and can be used once. The app exchanges it for a dashboard token stored in Android SecureStore; the server stores only the code hash and deletes it atomically on use. Provider credentials remain server-side. Pairing does not configure LinkedIn/OpenAI credentials.
+
+## Review, feedback and carousel workflow
+
+Generation produces a draft, never a published post. Review all five 4:5 previews and caption, edit them if needed, then choose Approve. Approval stores the exact rendered JPEG pages and caption revision. A separate Publish approved post action uploads those pages as a PDF document to LinkedIn. Editing an approved post invalidates approval. Backend publishing refuses drafts, rejected posts and stale approvals; network uncertainty never triggers an automatic retry.
+
+Reject opens a required feedback field. Choose all projects or only this project. Feedback is saved in D1 and retrieved for later generations and regeneration of the rejected project. This is preference memory, not model training. Settings lists saved preferences and allows deletion. Every revision returns to review; feedback cannot authorize publishing.
+
+Default visual reference: five-page Canva design DAHaUCfbi2c, especially slide two. The implemented layout uses white portrait pages, real device mockup/screenshot left, thin black divider, short copy right, blue emphasis and a pink accent. It is an app-rendered adaptation of the reference, not a Canva template autofill. Choose Use app logo instead explicitly to make a single-page logo variation. Add screenshot/logo URLs in Projects. No fabricated screens are substituted when assets are missing.
+
+Server-only PDF dependency lives in server/package.json and server/package-lock.json. CI installs both root and server dependencies; no native dependencies or runtime changes are needed. Apply server/migrations/0003.sql once to an existing database before deploying this change. LinkedIn document access and real device capture still require a live account/device test. If LinkedIn is still processing an uploaded document, the approved post and document URN are retained for an explicit retry.
+
+The earlier v1 single-image implementation and direct Publish button have been superseded by this required review workflow. Scheduling and unattended publishing remain disabled.
