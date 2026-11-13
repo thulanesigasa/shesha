@@ -38,7 +38,6 @@ jobs:
         run: |
           if gh release view v1.0.1 >/dev/null 2>&1; then
             gh release upload v1.0.1 shesha.apk shesha.apk.sha256 --clobber
-            gh release edit v1.0.1 --latest=false
           else
             gh release create v1.0.1 shesha.apk shesha.apk.sha256 --latest=false --target 3b02eb1d1cf7bb79847091f63b1e21103affcb08 --title 'Shesha v1.0.1' --notes 'Archived first production Android APK. Runtime 1.0.1. Version 1.0.2 is the latest native release.'
           fi
