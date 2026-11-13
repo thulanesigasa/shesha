@@ -1,1 +1,1 @@
-{"extends":"expo/tsconfig.base","compilerOptions":{"strict":true},"include":["App.tsx","CarouselPreview.tsx","Ui.tsx","SettingsGuide.tsx"]}
+{"extends":"expo/tsconfig.base","compilerOptions":{"strict":true},"include":["*.tsx","*.ts"]}

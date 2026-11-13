@@ -1,3 +1,4 @@
+import {repositoryDraft} from './dashboard.mjs';
 import {validateSlides,validateFeedback,validateApproval,requireApproval} from './review.mjs';
 import {carouselPdf} from './document.mjs';
 import {encrypt,decrypt,remote,selectProject,validateCaption} from './core.mjs';
@@ -28,7 +29,16 @@ export default {async fetch(req,env){try{
  return Response.json({ok:true});}
  if(path.startsWith('/projects/')&&req.method==='PUT'){const p=await req.json();if(p.logo&&!/^https:\/\//.test(p.logo))throw Error('Logo must use HTTPS.');if(p.screenshot&&!/^https:\/\//.test(p.screenshot))throw Error('Screenshot must use HTTPS.');if(p.device&&!['phone','laptop'].includes(p.device))throw Error('Choose phone or laptop.');await env.DB.prepare('UPDATE projects SET enabled=?,screenshot=?,device=?,canva=?,logo=? WHERE id=?').bind(p.enabled?1:0,p.screenshot||'',p.device||'phone',p.canva||'',p.logo||'',decodeURIComponent(path.slice(10))).run();return Response.json({ok:true});}
  if(/^\/posts\/[^/]+\/preview$/.test(path)&&req.method==='GET')return Response.json((await env.DB.prepare('SELECT image FROM approved_pages WHERE post_id=? ORDER BY page_index').bind(path.split('/')[2]).all()).results.map(p=>p.image));
- if(path==='/posts'&&req.method==='GET')return Response.json((await env.DB.prepare('SELECT posts.*,projects.name FROM posts LEFT JOIN projects ON projects.id=posts.project_id ORDER BY created_at DESC LIMIT 100').all()).results);
+ if(path==='/posts'&&req.method==='GET')return Response.json((await env.DB.prepare('SELECT posts.*,projects.name FROM posts LEFT JOIN projects ON projects.id=posts.project_id ORDER BY posts.created_at DESC,posts.rowid DESC LIMIT 100').all()).results);
+ if(path==='/dashboard'&&req.method==='GET')return Response.json((await env.DB.prepare("SELECT posts.*,projects.name FROM posts JOIN projects ON projects.id=posts.project_id WHERE posts.status IN ('draft','approved') ORDER BY posts.created_at DESC,posts.rowid DESC LIMIT 3").all()).results);
+ if(path==='/dashboard/prepare'&&req.method==='POST'){
+ const pending=(await env.DB.prepare("SELECT project_id FROM posts WHERE status='draft' ORDER BY created_at DESC,rowid DESC LIMIT 3").all()).results;
+ if(pending.length>=3)return Response.json({ok:true,prepared:0});
+ const projects=(await env.DB.prepare('SELECT * FROM projects WHERE enabled=1 ORDER BY name').all()).results;
+ const candidates=projects.filter(p=>!pending.some(x=>x.project_id===p.id)).slice(0,3-pending.length);
+ if(!candidates.length)return Response.json({ok:true,prepared:0});
+ const statements=candidates.map(p=>{const draft=repositoryDraft(p);validateCaption(draft.caption);validateSlides(draft.slides);return env.DB.prepare("INSERT INTO posts(id,project_id,caption,slides,format) SELECT ?,?,?,?,'carousel' WHERE (SELECT count(*) FROM posts WHERE status='draft')<3 AND NOT EXISTS(SELECT 1 FROM posts WHERE project_id=? AND status='draft')").bind(crypto.randomUUID(),p.id,draft.caption,JSON.stringify(draft.slides),p.id);});
+ const results=await env.DB.batch(statements);return Response.json({ok:true,prepared:results.reduce((sum,r)=>sum+r.meta.changes,0)});}
  if(path==='/generate'&&req.method==='POST'){
  if(!s.openaiKey)throw Error('Add your OpenAI API key in Settings.');
  const projects=(await env.DB.prepare('SELECT * FROM projects').all()).results;const recent=(await env.DB.prepare('SELECT project_id FROM posts ORDER BY created_at DESC LIMIT 5').all()).results.map(p=>p.project_id);const request=await req.json();const p=request.projectId?projects.find(p=>p.id===request.projectId&&p.enabled):selectProject(projects,recent);if(!p)throw Error('Project unavailable.');const format=request.format==='logo'?'logo':'carousel';const memories=(await env.DB.prepare('SELECT feedback FROM preferences WHERE active=1 AND (project_id IS NULL OR project_id=?) ORDER BY created_at DESC,rowid DESC LIMIT 30').bind(p.id).all()).results.map(m=>m.feedback);

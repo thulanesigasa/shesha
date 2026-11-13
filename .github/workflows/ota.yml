@@ -2,7 +2,7 @@ name: Publish OTA update
 on:
   push:
     branches: [main, preview]
-    paths: [App.tsx, CarouselPreview.tsx, Ui.tsx, SettingsGuide.tsx, assets/**, index.js, .github/workflows/ota.yml]
+    paths: [App.tsx, CarouselPreview.tsx, Ui.tsx, SettingsGuide.tsx, SettingsScreens.tsx, DashboardDrafts.tsx, Controls.tsx, models.ts, assets/**, index.js, .github/workflows/ota.yml]
   workflow_dispatch:
     inputs:
       channel:

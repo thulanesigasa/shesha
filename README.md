@@ -73,3 +73,11 @@ Settings now include provider-specific guidance, workspace information, review/a
 This release needs a fresh APK for the native icon/splash. Runtime stays 1.0.1. The added splash plugin is configuration-only; application JavaScript does not call any new native API. The [native-build] commit marker skips automatic OTA during this native release. Future OTA changes still need compatibility review. New APKs retain the same Android identity and EAS signing credentials.
 
 GitHub Release publication has previously returned HTTP 403 despite contents:write. The build workflow preserves the APK and checksum as a downloadable Actions artifact first, then attempts Release publication without discarding the APK if that step is denied.
+
+## Settings screens and prepared dashboard choices
+
+Settings opens as plain category rows on the page, with transparent PNG icons and no cards or icon backgrounds. Each category opens its own detail screen, with an explicit Back action and Android Back support. Backend details become read-only once paired; disconnecting through Pairing & security deliberately unlocks setup again. Connected services, saved preferences, appearance, Canva/design, content review, privacy, data, help and updates have separate screens.
+
+The header is text-only Shesha. The launcher icon and native splash from 1.0.2 are unchanged; these layout changes use existing native capabilities and are delivered through OTA on runtime 1.0.1.
+
+On connection, the dashboard fills up to three pending repository-based drafts and shows three selectable first-slide/caption previews. These templates use repository metadata and do not claim AI generation. Generating three AI alternatives requires an OpenAI key and uses the normal reviewed-draft flow. Neither preparation nor generation publishes a post. Prepared drafts are persisted on the backend and opened in the existing full review screen; missing screenshots are explicitly indicated.
