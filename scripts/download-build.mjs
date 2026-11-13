@@ -1,0 +1,3 @@
+import fs from 'node:fs';import {createHash} from 'node:crypto';
+const raw=JSON.parse(fs.readFileSync('build-output.json'));const b=Array.isArray(raw)?raw[0]:raw;const url=b.artifacts?.applicationArchiveUrl||b.artifacts?.buildUrl;
+if(b.status!=='FINISHED'||!url||new URL(url).protocol!=='https:')throw Error('No completed APK artifact');const r=await fetch(url);if(!r.ok)throw Error('APK download failed');const bytes=Buffer.from(await r.arrayBuffer());if(bytes[0]!==80||bytes[1]!==75)throw Error('Invalid APK archive');fs.writeFileSync('shesha.apk',bytes);fs.writeFileSync('shesha.apk.sha256',createHash('sha256').update(bytes).digest('hex')+'  shesha.apk\n');

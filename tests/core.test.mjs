@@ -1,0 +1,7 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {encrypt,decrypt,validateCaption,selectProject} from '../server/core.mjs';
+test('credentials encrypted, authenticated and recoverable',async()=>{const s=await encrypt({token:'private-token'},'master-secret');assert(!s.includes('private-token'));assert.deepEqual(await decrypt(s,'master-secret'),{token:'private-token'});await assert.rejects(()=>decrypt(s,'wrong'));});
+test('captions reject hashtags, emojis and oversize content',()=>{for(const c of ['Hello #project','Great 🚀','x'.repeat(2901),''])assert.throws(()=>validateCaption(c));assert.equal(validateCaption('A project I built.'),'A project I built.');});
+test('rotation excludes disabled and recent projects when possible',()=>{const p=[{id:'a',enabled:1},{id:'b',enabled:1},{id:'c',enabled:0}];assert.equal(selectProject(p,['a']).id,'b');assert.throws(()=>selectProject([],[]));});
+import worker from '../server/worker.mjs';
+test('API rejects unauthorized access before reading credentials',async()=>{const env={ADMIN_TOKEN:'long-admin-token',VAULT_KEY:'long-vault-key',DB:{prepare(){throw Error('Must not access database');}}};const res=await worker.fetch(new Request('https://example.com/settings'),env);assert.equal(res.status,401);});
+test('native guard rejects changed compatibility inputs',async()=>{const {execFileSync}=await import('node:child_process');assert.match(execFileSync('node',['scripts/check-runtime.mjs']).toString(),/match/);});

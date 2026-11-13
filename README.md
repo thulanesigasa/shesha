@@ -1,3 +1,49 @@
-# Shesha
+# Shesha 1.0.1
 
-Expo application and private publishing API for GitHub project showcases. First version in development.
+An Expo Android app and private Cloudflare Worker API for turning GitHub projects into LinkedIn posts. Uses five floating tabs, three onboarding screens, and settings inspired by Bible Diaries and exégeomai.
+
+## What works in this version
+
+- Sync a public GitHub user's repositories; optionally authenticate reads. Enable projects and assign screenshot URLs, phone/laptop layouts and Canva reference links.
+- Rotate projects, read README evidence, request an editable caption from OpenAI. No emojis or hashtags; validate again before publishing.
+- Render a real screenshot inside a device frame, save/reopen drafts, publish a single PNG to a personal LinkedIn profile using official APIs.
+- Track drafts, in-progress, published and uncertain deliveries. Do not automatically retry an uncertain submission; verify LinkedIn first.
+- Configure providers through Settings. Provider secrets encrypted with AES-GCM in D1; only the backend URL and dashboard token are stored in device SecureStore. Provider secrets are never compiled into the APK.
+- Check/download compatible OTA updates from Settings.
+
+## Initial infrastructure setup
+
+Cloudflare and Expo project creation are one-time infrastructure steps, not provider settings. No backend is deployed by committing this repository.
+
+1. `npm ci`. Create a Cloudflare D1 database (`npx wrangler d1 create shesha`) and put its UUID in wrangler.jsonc.
+2. Set `ADMIN_TOKEN` and `VAULT_KEY` with `npx wrangler secret put NAME`. Use distinct random values of at least 32 bytes; preserve VAULT_KEY or stored credentials will be unrecoverable.
+3. `npx wrangler d1 migrations apply shesha --remote`, then `npm run deploy:server`. This private single-owner API requires the dashboard bearer token on every route except health. Do not share it. Enable Cloudflare access/rate limiting as appropriate without blocking native API clients.
+4. Open app Settings, paste the deployed HTTPS Worker address and ADMIN_TOKEN, and Save and connect.
+5. Enter GitHub username, OpenAI API key/model, LinkedIn access token and personal URN. Save integrations. Empty secret fields preserve saved secrets. To remove a provider credential use the authenticated PUT /settings endpoint with its field set to an empty string. Disconnect removes the current device's token; revoke provider tokens in their developer consoles when needed.
+
+## Provider setup
+
+- OpenAI: the requested default is `gpt-6-nano`. This model identifier could not be verified in official docs during implementation. Settings lets you specify an available model ID; generation reports provider failure instead of silently substituting a model. No live request has been tested without your key.
+- LinkedIn: create a developer app, enable Share on LinkedIn and authorize `w_member_social` using LinkedIn's OAuth developer flow. Paste the resulting token and `urn:li:person:...` for that same authorized member into Settings. Identity can be obtained using the approved Sign In with LinkedIn product. This v1 does not embed a Connect LinkedIn OAuth flow or refresh tokens. Reauthorize when expired. No LinkedIn password belongs in the app. Company pages are not yet supported.
+- Canva: reference is ONLY https://www.canva.com/d/REBmq1xjIT_1Ad2 (five-page caurosel, DAHaUCfbi2c). Other designs are excluded. Optional token enables backend GET /canva/designs, but automated Canva export/adaptation and PDF carousel publishing are not implemented yet. Use screenshots/device mockups for v1.
+- GitHub: sync reads public user repositories, excluding forks and archived projects. Private repository discovery is not implemented. Optional token authenticates README reads.
+
+## Expo and GitHub Actions
+
+Runtime is the explicit string **1.0.1**, independent of app version. Production is the default profile and channel; preview is also defined, both with installable APK outputs.
+
+1. The repository's EXPO_TOKEN secret is already supplied by the owner. Do not put it in Settings or source.
+2. Create/link the Shesha EAS project once from a trusted terminal: `npx eas-cli init`. Set repository Actions variable `EXPO_PROJECT_ID` to that project's UUID. The app configuration reads this variable during build and OTA. Do not use the Bible Diaries project ID.
+3. Set up Android signing credentials for this project once using `npx eas-cli credentials --platform android` (or complete the first interactive build). Non-interactive CI cannot create credentials that need prompts.
+4. Run **Production Android APK** from Actions. The default production build uses EAS Cloud and attaches shesha.apk plus checksum to GitHub Releases. EAS billing/quotas apply. Changing release.json on main also triggers a build; ordinary UI changes do not.
+5. **Publish OTA update** runs for App.tsx/index.js changes on main (production) or preview (preview); it can also be dispatched manually. It creates/maps the EAS branch/channel. Install a build on the corresponding channel before testing OTA.
+6. For a native change, stop OTA, review compatibility, increase app version/build number, compile an APK and test it. Refresh native-baseline.json only after that review. Keeping runtime 1.0.1 does NOT make incompatible native code safe for old APKs; do not publish incompatible OTA to the same runtime/channel. A new compatibility runtime may ultimately be necessary if both old and new native binaries must receive different updates.
+
+The guard hashes package, lock, app config and EAS config to block unreviewed native changes before OTA. It is a conservative input guard, not proof of binary compatibility. Keep native code managed by Expo and review added native directories manually.
+
+## Development and validation
+
+`npm start`, `npm run typecheck`, `npm test`, `npx expo export --platform android`.
+`npm run server` uses local D1; apply migrations locally first. Tests cover encryption integrity, caption constraints, project rotation and unauthenticated API access. Live LinkedIn, Canva, OpenAI, deployed Worker and installed APK verification require infrastructure and provider credentials.
+
+Twice-daily scheduling, fully automatic trigger-and-post, in-app OAuth and Canva carousels remain future work. V1 deliberately keeps publishing as an explicit action from the generated draft.

@@ -1,0 +1,7 @@
+{
+  "name":"shesha-api",
+  "main":"server/worker.mjs",
+  "compatibility_date":"2026-11-13",
+  "observability":{"enabled":true,"traces":{"enabled":true}},
+  "d1_databases":[{"binding":"DB","database_name":"shesha","database_id":"REPLACE_WITH_D1_ID","migrations_dir":"server/migrations"}]
+}

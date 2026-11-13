@@ -1,0 +1,53 @@
+name: Production Android APK
+on:
+  push:
+    paths: [release.json]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      profile:
+        type: choice
+        options: [production, preview]
+        default: production
+permissions:
+  contents: write
+concurrency:
+  group: android-release
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EXPO_PROJECT_ID: ${{ vars.EXPO_PROJECT_ID }}
+      PROFILE: ${{ inputs.profile || 'production' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npm run typecheck && npm test
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Validate Expo project link
+        run: |
+          if [ -z "$EXPO_PROJECT_ID" ]; then
+            echo 'Set repository variable EXPO_PROJECT_ID to the Shesha EAS project UUID. See README.'
+            exit 1
+          fi
+          eas whoami
+      - name: Build APK
+        run: eas build --platform android --profile "$PROFILE" --non-interactive --wait --json > build-output.json
+      - name: Download completed APK
+        run: node scripts/download-build.mjs
+      - name: Publish APK release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v${VERSION}"
+          if [ "$PROFILE" = preview ]; then TAG="preview-${VERSION}-${GITHUB_RUN_NUMBER}"; fi
+          gh release create "$TAG" shesha.apk shesha.apk.sha256 --target "$GITHUB_SHA" --title "Shesha $TAG" --notes "Android APK. Channel: $PROFILE. Runtime: 1.0.1." $([ "$PROFILE" = preview ] && echo --prerelease) 

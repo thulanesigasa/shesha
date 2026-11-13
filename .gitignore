@@ -1,0 +1,8 @@
+node_modules/
+.expo/
+.wrangler/
+dist/
+.env*
+.dev.vars*
+*.apk
+build-output.json
