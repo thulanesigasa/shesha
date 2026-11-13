@@ -2,7 +2,7 @@ name: Publish OTA update
 on:
   push:
     branches: [main, preview]
-    paths: [App.tsx, CarouselPreview.tsx, index.js, .github/workflows/ota.yml]
+    paths: [App.tsx, CarouselPreview.tsx, Ui.tsx, SettingsGuide.tsx, assets/**, index.js, .github/workflows/ota.yml]
   workflow_dispatch:
     inputs:
       channel:
@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   update:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[native-build]')
     runs-on: ubuntu-latest
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

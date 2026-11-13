@@ -63,3 +63,13 @@ Default visual reference: five-page Canva design DAHaUCfbi2c, especially slide t
 Server-only PDF dependency lives in server/package.json and server/package-lock.json. CI installs both root and server dependencies; no native dependencies or runtime changes are needed. Apply server/migrations/0003.sql once to an existing database before deploying this change. LinkedIn document access and real device capture still require a live account/device test. If LinkedIn is still processing an uploaded document, the approved post and document URN are retained for an explicit retry.
 
 The earlier v1 single-image implementation and direct Publish button have been superseded by this required review workflow. Scheduling and unattended publishing remain disabled.
+
+## Version 1.0.2: identity and settings
+
+Uses the owner-supplied T.s & co PNG unchanged for icon, Android adaptive icon, splash, favicon and header. App surfaces are white, typography is black, and gold is reserved for accents. UI icons are raster PNG assets derived from Lucide outline icon nodes; the app imports no SVG icon components. The rasterization script uses the licensed vector nodes only as build-time inputs and retains Lucide's license. react-native-svg remains installed for native compatibility with 1.0.1, but is not used by Shesha's UI.
+
+Settings now include provider-specific guidance, workspace information, review/approval rules, visual defaults, scoped memory, privacy, pairing, connection troubleshooting, activity, data sharing, updates, support and responsible-use information. Reading size is persisted and scales app text. Workspace summaries and diagnostics use Android's share sheet and deliberately exclude credentials; generated carousel page typography is not scaled by the app reading preference.
+
+This release needs a fresh APK for the native icon/splash. Runtime stays 1.0.1. The added splash plugin is configuration-only; application JavaScript does not call any new native API. The [native-build] commit marker skips automatic OTA during this native release. Future OTA changes still need compatibility review. New APKs retain the same Android identity and EAS signing credentials.
+
+GitHub Release publication has previously returned HTTP 403 despite contents:write. The build workflow preserves the APK and checksum as a downloadable Actions artifact first, then attempts Release publication without discarding the APK if that step is denied.

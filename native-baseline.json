@@ -1,6 +1,7 @@
 {
-  "package.json": "df61bfda7739a4b79660f1c0eb1c71fde54658c88ea1833051abce8138db24af",
-  "package-lock.json": "8280e98d6383c88cb3f0d41faefc64690577389c89473dc5133a1ecbaddebc7b",
-  "app.config.js": "3f95f9fc67fd5bb1e3264f30840b904b3bee3a89a5be62692e1baa8c6acf354d",
-  "eas.json": "c21116190db818c25786a4c2e649bfe7ce4f569c0c0bcfae748ee6af8627f5d3"
+  "package.json": "5ab11bfce27c2b65c6c03871786ab35a915c83b49c707fd1f5985323d15108ea",
+  "package-lock.json": "d9ef9b3af1be29789d557fb03ee275b1658ac1c96fb37c8994f376ebffb301a1",
+  "app.config.js": "d28a22c6a255a224dc04354b91f2d613fb9fe52bddb9505873e49f64db733a54",
+  "eas.json": "c21116190db818c25786a4c2e649bfe7ce4f569c0c0bcfae748ee6af8627f5d3",
+  "assets/brand.png": "9af3bc1d78ca47a3b7d94bfe934a27f8c2d62be4e7cf01afb64f756c02d0000c"
 }
