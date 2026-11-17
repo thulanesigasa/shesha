@@ -1,0 +1,9 @@
+{
+ "bible_diaries":{"path":"mobile"},
+ "GENI":{"path":"."},
+ "bible_fun_facts":{"path":"."},
+ "emo-barricade":{"path":"."},
+ "ghost_fileshuttler":{"path":".","native":"android"},
+ "rhymamusic":{"path":"mobile"},
+ "rulership_erp":{"path":"app"}
+}
