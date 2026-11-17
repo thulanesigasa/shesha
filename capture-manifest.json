@@ -1,1 +1,40 @@
-{}
+{
+  "thulanesigasa/emo-barricade": {
+    "repository": "thulanesigasa/emo-barricade",
+    "sourceRef": "14dd28f834bee1d82954f99cd30c4f02e7e58c82",
+    "sourceSha": "14dd28f834bee1d82954f99cd30c4f02e7e58c82",
+    "packageId": "com.thulanesigasa.emobarricade",
+    "apkSha256": "fdd97538e647e2ca888bbc55672699ff6a4eb8a030697e4c708f739e347633db",
+    "release": null,
+    "capturedAt": "2026-11-17T07:02:42.880Z",
+    "label": "App entry screen",
+    "kind": "android-capture",
+    "screens": [
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/emo-barricade-d3ea030588239254.png",
+        "kind": "android-capture",
+        "label": "App entry screen",
+        "sha256": "d3ea030588239254c47fdd1fa78a3d1b8ea3b8fab028a98a98914addd89241f6"
+      }
+    ]
+  },
+  "thulanesigasa/ghost_fileshuttler": {
+    "repository": "thulanesigasa/ghost_fileshuttler",
+    "sourceRef": "v1.0.2",
+    "sourceSha": "4e95900751abfb96ec687ef28df462e7e85d2d90",
+    "packageId": "com.ghost.fileshuttler",
+    "apkSha256": "7dcd8c32d75d6fd6d8f7a38adc7596fac0f2fca9a615f2e8999cb5837be52747",
+    "release": "https://github.com/thulanesigasa/ghost_fileshuttler/releases/tag/v1.0.2",
+    "capturedAt": "2026-11-17T06:57:18.013Z",
+    "label": "App entry screen",
+    "kind": "android-capture",
+    "screens": [
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/ghost_fileshuttler-8807ef3151967682.png",
+        "kind": "android-capture",
+        "label": "App entry screen",
+        "sha256": "8807ef31519676826b3f6dd20bda3d449a2bc1f25d0e777f6b84a5eb13272885"
+      }
+    ]
+  }
+}
