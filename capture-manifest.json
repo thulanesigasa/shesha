@@ -36,5 +36,45 @@
         "sha256": "8807ef31519676826b3f6dd20bda3d449a2bc1f25d0e777f6b84a5eb13272885"
       }
     ]
+  },
+  "thulanesigasa/bible_diaries": {
+    "repository": "thulanesigasa/bible_diaries",
+    "sourceRef": "v1.0.5",
+    "sourceSha": "62826920ea3114d8d0d0bc047011616e7c1965db",
+    "packageId": "com.thulanesigasa.biblediaries",
+    "apkSha256": "73b5cb20a1dc04a926dffc9dcaf369e858ef608d01b183e3d0467bc0950362a2",
+    "release": "https://github.com/thulanesigasa/bible_diaries/releases/tag/v1.0.5",
+    "capturedAt": "2026-11-17T07:11:13.783Z",
+    "label": "App entry screen",
+    "kind": "android-capture",
+    "captureVersion": 2,
+    "screens": [
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_diaries-882d6b651e3ef97f.png",
+        "kind": "android-capture",
+        "label": "App entry screen",
+        "sha256": "882d6b651e3ef97f6eb4f052aea2777bbacc8f3c15f85447d5649858029edb85"
+      }
+    ]
+  },
+  "thulanesigasa/bible_fun_facts": {
+    "repository": "thulanesigasa/bible_fun_facts",
+    "sourceRef": "v1.0.5",
+    "sourceSha": "36a376b4528bbcbcb29986a485a05df88cd09e0f",
+    "packageId": "com.thulanesigasa.exegeomai",
+    "apkSha256": "2c796b5c3e430f3c53f5316120a569d3589d7f4ec6d188d380c3deee6e98d407",
+    "release": "https://github.com/thulanesigasa/bible_fun_facts/releases/tag/v1.0.5",
+    "capturedAt": "2026-11-17T07:11:07.339Z",
+    "label": "App entry screen",
+    "kind": "android-capture",
+    "captureVersion": 2,
+    "screens": [
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_fun_facts-88ee1ace0eed6d11.png",
+        "kind": "android-capture",
+        "label": "App entry screen",
+        "sha256": "88ee1ace0eed6d1112766e9b6a34a550b9e9b952fe81215928c8ad7658e37ee9"
+      }
+    ]
   }
 }
