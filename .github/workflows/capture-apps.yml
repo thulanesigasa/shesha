@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   targets:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       projects: ${{ steps.select.outputs.projects }}
     steps:
@@ -35,7 +35,7 @@ jobs:
           JS
   capture:
     needs: targets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
       fail-fast: false
@@ -50,6 +50,9 @@ jobs:
       - uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: 17}
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
       - name: Prepare released APK or build actual app source
         env:
           CAPTURE_PROJECT: ${{ matrix.project }}
@@ -78,7 +81,7 @@ jobs:
   publish:
     needs: [targets, capture]
     if: always() && needs.targets.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     env:
