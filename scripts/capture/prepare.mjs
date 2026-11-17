@@ -10,7 +10,7 @@ let sourceRef,sourceSha,apk;
 if(asset){sourceRef=release.tag_name;sourceSha=api(`repos/${repository}/commits/${encodeURIComponent(sourceRef)}`).sha;run('gh',['release','download',release.tag_name,'--repo',repository,'--pattern',asset.name,'--dir',work]);apk=path.join(work,asset.name);}
 else{
  run('git',['clone','--depth','1',`https://github.com/${repository}.git`,'source']);const source=path.join(work,'source');sourceSha=execFileSync('git',['rev-parse','HEAD'],{cwd:source,encoding:'utf8'}).trim();sourceRef=sourceSha;const app=path.join(source,target.path);
- if(!target.native){run('npm',fs.existsSync(path.join(app,'package-lock.json'))?['ci','--legacy-peer-deps']:['install','--legacy-peer-deps'],app);
+ if(!target.native){for(const lock of ['bun.lock','bun.lockb','yarn.lock']){const file=path.join(app,lock);if(fs.existsSync(file))fs.unlinkSync(file);}run('npm',fs.existsSync(path.join(app,'package-lock.json'))?['ci','--legacy-peer-deps']:['install','--legacy-peer-deps'],app);
  // Align an isolated GENI capture build with its installed Expo SDK. App source is unchanged.
  if(name==='GENI'){run('npx',['expo','install','--fix','--npm'],app);const cfg=JSON.parse(fs.readFileSync(path.join(app,'app.json')));cfg.expo.android.package=cfg.expo.android.package.replace(/-/g,'_');fs.writeFileSync(path.join(app,'app.json'),JSON.stringify(cfg));}
  run('npx',['expo','prebuild','--platform','android','--no-install'],app);
