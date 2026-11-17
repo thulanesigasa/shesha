@@ -1,0 +1,2 @@
+export function visibleProjects(projects,query=''){const normalize=s=>s.toLowerCase().replace(/[_-]+/g,' ').trim();const q=normalize(query);const sorted=[...projects].sort((a,b)=>(b.commit_count??-1)-(a.commit_count??-1)||a.name.localeCompare(b.name));return q?sorted.filter(p=>normalize(p.name+' '+p.id+' '+(p.description||'')).includes(q)):sorted.filter(p=>Number.isSafeInteger(p.commit_count)&&p.commit_count>=0).slice(0,3);}
+export function keyboardOverlap(top,height,keyboardTop){return Number.isFinite(keyboardTop)?Math.max(0,top+height+24-keyboardTop):0;}

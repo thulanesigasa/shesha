@@ -1,0 +1,26 @@
+name: Count project commits
+on:
+  push:
+    branches: [main]
+    paths: [project-ranking-request.json]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - name: Count default branch history
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROJECT_OWNER: thulanesigasa
+        run: node scripts/project-rankings.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: project-rankings
+          path: project-rankings.json
+          retention-days: 7

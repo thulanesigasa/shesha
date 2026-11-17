@@ -1,0 +1,5 @@
+import fs from 'node:fs';import {commitCount} from '../server/commit-count.mjs';
+const username=process.env.PROJECT_OWNER||'thulanesigasa';if(!/^[a-zA-Z0-9-]{1,39}$/.test(username))throw Error('Invalid GitHub username');const headers={Authorization:'Bearer '+process.env.GH_TOKEN,'User-Agent':'Shesha',Accept:'application/vnd.github+json'};
+const repos=[];for(let page=1;page<=10;page++){const r=await fetch(`https://api.github.com/users/${username}/repos?per_page=100&page=${page}`,{headers});if(!r.ok)throw Error('GitHub repository lookup failed');const p=await r.json();repos.push(...p.filter(x=>!x.fork&&!x.archived));if(p.length<100)break;}
+const projects=[];for(let i=0;i<repos.length;i+=4){projects.push(...await Promise.all(repos.slice(i,i+4).map(async p=>({id:p.full_name,name:p.name,commit_count:await commitCount(await fetch(`https://api.github.com/repos/${p.full_name}/commits?per_page=1`,{headers})),commits_checked_at:new Date().toISOString()}))));}
+fs.writeFileSync('project-rankings.json',JSON.stringify({projects:projects.sort((a,b)=>b.commit_count-a.commit_count)},null,2));console.log(`Counted ${projects.length} default branches`);
