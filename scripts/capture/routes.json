@@ -1,0 +1,5 @@
+{
+ "bible_diaries":[{"label":"Sign in","steps":[]},{"label":"Password recovery","steps":[["Forgot your password?","Forgot password?","Forgot password"]]},{"label":"Create account","steps":[["Create an Account","Create account","Sign up"]]}],
+ "bible_fun_facts":[{"label":"Welcome","steps":[]},{"label":"Sign in","steps":[["Sign In","Sign in"]]},{"label":"Password recovery","steps":[["Sign In","Sign in"],["Forgot password?","Forgot your password?","Forgot Password?"]]}],
+ "emo-barricade":[{"label":"Home","steps":[]},{"label":"Play","steps":[["Play"]]},{"label":"Profile","steps":[["Profile"]]},{"label":"Level selection","steps":[["Choose a level","Choose a level ↗"]]}]
+}
