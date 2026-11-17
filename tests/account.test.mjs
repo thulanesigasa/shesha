@@ -3,3 +3,5 @@ test('LinkedIn profile is fixed and token identity is pinned',()=>{assert.equal(
 test('missing screens stay unavailable instead of substituting an invented UI',()=>{assert.deepEqual(projectScreens({id:'missing/app'}),[]);assert.equal(projectScreens({id:'missing/app',screenshot:'https://example.com/screen.png'})[0].uri,'https://example.com/screen.png');});
 import {distinctScreens} from '../shared/screens.mjs';
 test('carousel screens deduplicate the UI rather than recycling a screenshot',()=>{const pages=distinctScreens([{uri:'https://example.com/1.png',kind:'android-capture',uiHash:'home'},{uri:'https://example.com/2.png',kind:'android-capture',uiHash:'home'},{uri:'https://example.com/3.png',kind:'android-capture',uiHash:'profile'}]);assert.equal(pages.length,2);assert.equal(pages[1].uri,'https://example.com/3.png');});
+
+test("an override matching a captured URL does not add a duplicate page",()=>{assert.equal(distinctScreens([{uri:"https://example.com/home.png",kind:"project-image"},{uri:"https://example.com/home.png",kind:"android-capture",uiHash:"home"}]).length,1);});
