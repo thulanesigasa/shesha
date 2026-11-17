@@ -4,17 +4,32 @@
     "sourceRef": "14dd28f834bee1d82954f99cd30c4f02e7e58c82",
     "sourceSha": "14dd28f834bee1d82954f99cd30c4f02e7e58c82",
     "packageId": "com.thulanesigasa.emobarricade",
-    "apkSha256": "fdd97538e647e2ca888bbc55672699ff6a4eb8a030697e4c708f739e347633db",
+    "apkSha256": "f279edc0ee7f1791b984413318c210575936f6164f0424c666213aecc1411a55",
     "release": null,
-    "capturedAt": "2026-11-17T07:02:42.880Z",
-    "label": "App entry screen",
+    "capturedAt": "2026-11-17T08:09:38.191Z",
     "kind": "android-capture",
+    "captureVersion": 3,
     "screens": [
       {
-        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/emo-barricade-d3ea030588239254.png",
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/emo-barricade-c56b7d718b6631e9.png",
         "kind": "android-capture",
-        "label": "App entry screen",
-        "sha256": "d3ea030588239254c47fdd1fa78a3d1b8ea3b8fab028a98a98914addd89241f6"
+        "label": "Home",
+        "sha256": "c56b7d718b6631e9cd58ec066be7c7fa09942ba413f0dba1dbf8614185cbf428",
+        "uiHash": "541ec7325f1afb101fdbef7d55db483e112653230405ef7fe27e1237c3148c90"
+      },
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/emo-barricade-b9263e966495ea3f.png",
+        "kind": "android-capture",
+        "label": "Play",
+        "sha256": "b9263e966495ea3f4e149151165f320b701214710cf0ad997585315c935a6279",
+        "uiHash": "17dc3b6a28b623cd715a856fb062e634d5f2a3fd21d2ea53035dea047c4c215b"
+      },
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/emo-barricade-53493db6bcef3d7c.png",
+        "kind": "android-capture",
+        "label": "Profile",
+        "sha256": "53493db6bcef3d7c8f9b2fadc084280724ce8d0ae75cdd0c206625e7fe071b54",
+        "uiHash": "ee2d8fd0897759d8af4d59ff0e87891c80b055565575e7b1887c61149c038a9b"
       }
     ]
   },
