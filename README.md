@@ -6,7 +6,7 @@ An Expo Android app and private Cloudflare Worker API for turning GitHub project
 
 - Sync a public GitHub user's repositories; optionally authenticate reads. Enable projects and automatically render their own brand colours in phone/laptop mockups; screenshot URLs are optional overrides.
 - Rotate projects, read README evidence, request an editable caption from OpenAI. No emojis or hashtags; validate again before publishing.
-- Render a branded illustrative app screen or a source image inside a device frame, save/reopen drafts and publish an approved PDF carousel using official APIs.
+- Render a captured app screen inside a branded device frame, save/reopen drafts and publish an approved PDF carousel using official APIs.
 - Track drafts, in-progress, published and uncertain deliveries. Do not automatically retry an uncertain submission; verify LinkedIn first.
 - Configure providers through Settings. Provider secrets encrypted with AES-GCM in D1; only the backend URL and dashboard token are stored in device SecureStore. Provider secrets are never compiled into the APK.
 - Check/download compatible OTA updates from Settings.
@@ -80,7 +80,7 @@ Settings opens as plain category rows on the page, with transparent PNG icons an
 
 The header is text-only Shesha. The launcher icon and native splash from 1.0.2 are unchanged; these layout changes use existing native capabilities and are delivered through OTA on runtime 1.0.1.
 
-On connection, the dashboard fills up to three pending repository-based drafts and shows three selectable first-slide/caption previews. These templates use repository metadata and do not claim AI generation. Generating three AI alternatives requires an OpenAI key and uses the normal reviewed-draft flow. Neither preparation nor generation publishes a post. Prepared drafts are persisted on the backend and opened in the existing full review screen; branded illustrative mockups are shown when no screenshot is available.
+On connection, the dashboard fills up to three pending repository-based drafts and shows three selectable first-slide/caption previews. These templates use repository metadata and do not claim AI generation. Generating three AI alternatives requires an OpenAI key and uses the normal reviewed-draft flow. Neither preparation nor generation publishes a post. Prepared drafts are persisted on the backend and opened in the existing full review screen; missing captures are shown as pending and cannot be approved.
 
 Apply server/migrations/0004.sql once before deploying project visual metadata support. No native dependencies changed; runtime remains 1.0.1.
 
