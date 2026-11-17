@@ -44,16 +44,30 @@
     "packageId": "com.thulanesigasa.biblediaries",
     "apkSha256": "73b5cb20a1dc04a926dffc9dcaf369e858ef608d01b183e3d0467bc0950362a2",
     "release": "https://github.com/thulanesigasa/bible_diaries/releases/tag/v1.0.5",
-    "capturedAt": "2026-11-17T07:11:13.783Z",
-    "label": "App entry screen",
+    "capturedAt": "2026-11-17T08:03:54.780Z",
     "kind": "android-capture",
-    "captureVersion": 2,
+    "captureVersion": 3,
     "screens": [
       {
         "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_diaries-882d6b651e3ef97f.png",
         "kind": "android-capture",
-        "label": "App entry screen",
-        "sha256": "882d6b651e3ef97f6eb4f052aea2777bbacc8f3c15f85447d5649858029edb85"
+        "label": "Sign in",
+        "sha256": "882d6b651e3ef97f6eb4f052aea2777bbacc8f3c15f85447d5649858029edb85",
+        "uiHash": "095804848b54482bd66ca9dcbb2d8fe8f3743e95dcedeb36b3ff785481e4ca7d"
+      },
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_diaries-652f8e973f50ae73.png",
+        "kind": "android-capture",
+        "label": "Password recovery",
+        "sha256": "652f8e973f50ae730f227e0a277104d0f59b58a2f5ea2ffaad4acc6644b71bd6",
+        "uiHash": "5146eaf6deab26de6f20dcb39ccef4328ed8266cafef177f7440d2410f550a89"
+      },
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_diaries-cbbc948186b83e3d.png",
+        "kind": "android-capture",
+        "label": "Create account",
+        "sha256": "cbbc948186b83e3d20f84e87289794b9222db75a50280b023bb0e64e6300d69f",
+        "uiHash": "4657c765877f0e1e62052cc8da1fb6756eaf2618774d2e9cd1a0444f69afe56c"
       }
     ]
   },
@@ -64,16 +78,23 @@
     "packageId": "com.thulanesigasa.exegeomai",
     "apkSha256": "2c796b5c3e430f3c53f5316120a569d3589d7f4ec6d188d380c3deee6e98d407",
     "release": "https://github.com/thulanesigasa/bible_fun_facts/releases/tag/v1.0.5",
-    "capturedAt": "2026-11-17T07:11:07.339Z",
-    "label": "App entry screen",
+    "capturedAt": "2026-11-17T08:03:42.780Z",
     "kind": "android-capture",
-    "captureVersion": 2,
+    "captureVersion": 3,
     "screens": [
       {
-        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_fun_facts-88ee1ace0eed6d11.png",
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_fun_facts-d5df37cb7920c962.png",
         "kind": "android-capture",
-        "label": "App entry screen",
-        "sha256": "88ee1ace0eed6d1112766e9b6a34a550b9e9b952fe81215928c8ad7658e37ee9"
+        "label": "Welcome",
+        "sha256": "d5df37cb7920c962044fda3f6b767bed546743b8b48380b4bf8b6e814eeb8c16",
+        "uiHash": "bd9e7a3018de4719aa05e2060121102b415979d5b898ad73927560148a3e9c99"
+      },
+      {
+        "uri": "https://raw.githubusercontent.com/thulanesigasa/shesha/main/assets/captures/bible_fun_facts-9417d457f2222d5e.png",
+        "kind": "android-capture",
+        "label": "Sign in",
+        "sha256": "9417d457f2222d5e7aff5af24faf6bd9bc3dd0d6fb549b4ca3f7143fc9a165ab",
+        "uiHash": "e6fe0e674d768ae66d0042a714a7e7e783a78386237cad6e9d3ac25141ec5193"
       }
     ]
   }
